@@ -9,10 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+public class FileText extends FileAbstract<List<String>> {
 
-public class TextFile extends FileBase {
-
-    public TextFile(String fileName) {
+    public FileText(String fileName) {
         super(fileName);
     }
 
@@ -38,11 +37,10 @@ public class TextFile extends FileBase {
     }
     */
 
+
     /**
      * Чтение текстового файла в список строк, с пробросом возможных исключений на уровень вверх.
      * @return Список строк
-     * @throws NeverFileException
-     * @throws BarReadLineException
      */
     @Override
     public List<String> load() throws NeverFileException, BarReadLineException
@@ -51,9 +49,7 @@ public class TextFile extends FileBase {
         try (BufferedReader f = new BufferedReader(new FileReader(fileName, StandardCharsets.UTF_8)))
         {
             while (f.ready())
-            {
                 out.add(f.readLine());
-            }
 
         } catch (FileNotFoundException e) {
             throw new NeverFileException(fileName);
@@ -67,24 +63,19 @@ public class TextFile extends FileBase {
     /**
      * Запись в текстовый файл, с пробросом возможных исключений на уровень вверх.
      * @param buffer Список строк
-     * @throws NeverFileException
-     * @throws BadWriteLineException
      */
     @Override
     public void save(List<String> buffer) throws NeverFileException, BadWriteLineException
     {
         try (FileWriter f = new FileWriter(fileName, StandardCharsets.UTF_8))
         {
-            for (String s : buffer) {
-
+            for (String s : buffer)
                 f.append(s).append("\n");
-            }
+
         } catch (FileNotFoundException e) {
             throw new NeverFileException(fileName);
         } catch (IOException e) {
             throw new BadWriteLineException(fileName);
         }
     }
-
-
 }

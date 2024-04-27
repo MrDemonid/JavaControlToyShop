@@ -3,10 +3,9 @@ package model;
 
 import ex.BadWriteLineException;
 import ex.NeverFileException;
-import model.fileio.TextFile;
+import model.fileio.FileText;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,16 +29,9 @@ public class Shop {
             toys.put(id,toy);                  // добавляем новую игрушку
     }
 
-    public void load(String fileName) {
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName)))
-        {
-            toys = new HashMap<>();
-            toys = ((HashMap<Integer, Toy>) ois.readObject());
-        }
-        catch(Exception ex){
+    public void load(String fileName)
+    {
 
-            System.out.println(ex.getMessage());
-        }
     }
 
     public void save(String fileName) throws NeverFileException, BadWriteLineException
@@ -60,7 +52,7 @@ public class Shop {
         list.add("]");
 
         // скидываем в файл
-        TextFile file = new TextFile(fileName);
+        FileText file = new FileText(fileName);
         file.save(list);
     }
 
