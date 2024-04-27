@@ -1,12 +1,13 @@
 package model;
 
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.HashMap;
-import java.util.Map;
+import ex.BadWriteLineException;
+import ex.NeverFileException;
+import model.fileio.TextFile;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Shop {
@@ -41,15 +42,26 @@ public class Shop {
         }
     }
 
-    public void save(String fileName) {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName)))
-        {
-            oos.writeObject(toys);
-        }
-        catch(Exception ex){
+    public void save(String fileName) throws NeverFileException, BadWriteLineException
+    {
+        List<String> list = new ArrayList<>();
+        list.add("[");
 
-            System.out.println(ex.getMessage());
+        Iterator<Map.Entry<Integer, Toy>> elem = toys.entrySet().iterator();
+        while (elem.hasNext())
+        {
+            Map.Entry<Integer, Toy> entry = elem.next();
+            Toy toy = entry.getValue();
+            if (elem.hasNext())
+                list.add(toy.serialize() + ",");
+            else
+                list.add(toy.serialize());
         }
+        list.add("]");
+
+        // скидываем в файл
+        TextFile file = new TextFile(fileName);
+        file.save(list);
     }
 
     @Override

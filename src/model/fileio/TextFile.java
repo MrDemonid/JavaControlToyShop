@@ -76,6 +76,7 @@ public class TextFile extends FileBase {
         try (FileWriter f = new FileWriter(fileName, StandardCharsets.UTF_8))
         {
             for (String s : buffer) {
+
                 f.append(s).append("\n");
             }
         } catch (FileNotFoundException e) {

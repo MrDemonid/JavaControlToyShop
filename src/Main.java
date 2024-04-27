@@ -1,3 +1,5 @@
+import ex.BadWriteLineException;
+import ex.NeverFileException;
 import model.Shop;
 import model.Toy;
 import view.AnsiView;
@@ -8,15 +10,21 @@ public class Main {
     {
         View view = new AnsiView();
         Shop shop = new Shop();
-//        shop.add(new Toy(1, "Машинка", 5, 12));
-//        shop.add(new Toy(4, "Самолет", 2, 2));
-//        shop.add(new Toy(12, "Экскаватор", 7, 15));
-//        shop.add(new Toy(4, "Самолет", 8, 2));
-//        view.output(shop);
-//
-//        shop.save("assets/toys.txt");
-
-        shop.load("assets/toys.txt");
+        shop.add(new Toy(1, "Машинка", 5, 12));
+        shop.add(new Toy(4, "Самолет", 2, 2));
+        shop.add(new Toy(12, "Экскаватор", 7, 15));
+        shop.add(new Toy(4, "Самолет", 8, 2));
         view.output(shop);
+
+
+        try {
+            shop.save("assets/toys.txt");
+            
+        } catch (NeverFileException | BadWriteLineException e) {
+            view.error(e.getMessage());
+        }
+
+//        shop.load("assets/toys.txt");
+//        view.output(shop);
     }
 }

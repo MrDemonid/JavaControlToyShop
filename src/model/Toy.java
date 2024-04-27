@@ -1,8 +1,8 @@
 package model;
 
-import java.io.Serializable;
+import java.io.*;
 
-public class Toy implements Serializable {
+public class Toy {
     private int id;
     private String name;
     private int count;
@@ -52,10 +52,19 @@ public class Toy implements Serializable {
         return true;
     }
 
-
     @Override
     public String toString()
     {
+
         return String.format("[%d], '%s', %d шт.", id, name, count);
     }
+
+    /**
+     * Возвращает данные объекта в текстовом виде, пригодном для записи
+     */
+    public String serialize()
+    {
+        return String.format("{\n    'id' : %d,\n    'name' : '%s',\n    'count' : %d,\n    'probability' : %d\n}", id, name, count, probability);
+    }
+
 }
