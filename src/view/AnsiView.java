@@ -72,10 +72,10 @@ public class AnsiView extends ConsoleView {
                 sb.append(ANSI_NUMBER).append(source, i, pos).append(ANSI_OUTPUT);
                 i = pos-1;
 
-            } else if (ch == '\'')
+            } else if (ch == '"')
             {
                 // ищем конец строки
-                int pos = source.indexOf(ch,i+1);
+                int pos = source.indexOf(ch, i+1);
                 if (pos > i)
                 {
                     sb.append(ANSI_STRING).append(source, i, pos+1).append(ANSI_OUTPUT);

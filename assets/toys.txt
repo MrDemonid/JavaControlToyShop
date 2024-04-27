@@ -1,20 +1,20 @@
 [
 {
-    'id' : 1,
-    'name' : 'Машинка',
-    'count' : 5,
-    'probability' : 12
+    "id" : 1,
+    "name" : "Машинка",
+    "count" : 5,
+    "probability" : 12
 },
 {
-    'id' : 4,
-    'name' : 'Самолет',
-    'count' : 10,
-    'probability' : 2
+    "id" : 4,
+    "name" : "Самолет",
+    "count" : 10,
+    "probability" : 2
 },
 {
-    'id' : 12,
-    'name' : 'Экскаватор',
-    'count' : 7,
-    'probability' : 15
+    "id" : 12,
+    "name" : "Экскаватор",
+    "count" : 7,
+    "probability" : 15
 }
 ]
