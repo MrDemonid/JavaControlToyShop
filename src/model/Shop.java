@@ -7,7 +7,6 @@ import ex.NeverFileException;
 import model.fileio.FileText;
 import model.fileio.FileToy;
 
-import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,8 +39,8 @@ public class Shop {
     }
 
     /**
-     * Из списка строк вида: "id":1,"name":"Машинка","count":5,"probability":12
-     * создаёт экземпляры класса Toy и добавляет в список toys
+     * Подргужает данные из текстового файла
+     * @param fileName Имя текстового файла
      */
     public void load(String fileName) throws NeverFileException, BarReadLineException
     {
@@ -50,11 +49,15 @@ public class Shop {
         for (String s : list)
         {
             Toy toy = new Toy();
-            if (toy.load(s))
+            if (toy.deserialize(s))
                 add(toy);
         }
     }
 
+    /**
+     * Сохраняет данные в текстовый файл
+     * @param fileName Имя файла
+     */
     public void save(String fileName) throws NeverFileException, BadWriteLineException
     {
         List<String> list = new ArrayList<>();
@@ -63,27 +66,8 @@ public class Shop {
         {
             list.add(toy.serialize());
         }
-
         FileToy file = new FileToy(fileName);
         file.save(list);
-
-//        list.add("[");
-//
-//        Iterator<Map.Entry<Integer, Toy>> elem = toys.entrySet().iterator();
-//        while (elem.hasNext())
-//        {
-//            Map.Entry<Integer, Toy> entry = elem.next();
-//            Toy toy = entry.getValue();
-//            if (elem.hasNext())
-//                list.add(toy.serialize() + ",");
-//            else
-//                list.add(toy.serialize());
-//        }
-//        list.add("]");
-//
-//        // скидываем в файл
-//        FileText file = new FileText(fileName);
-//        file.save(list);
     }
 
 
