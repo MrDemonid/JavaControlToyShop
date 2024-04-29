@@ -1,34 +1,32 @@
 package view;
 
-public class MenuItem {
+public class MenuItem extends MenuBase {
 
-    private int id;
-    private String text;
-    private Menu submenu;
+    private MenuCmd id;
+    private MenuBase submenu;
 
-    public MenuItem(int id, String text, Menu submenu)
+    public MenuItem(MenuCmd id, String text, MenuBase submenu)
     {
+        super(text);
         this.id = id;
-        this.text = text;
         this.submenu = submenu;
     }
 
-    public int getId() {
+    public MenuCmd getId() {
         return id;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public Menu getSubmenu() {
+    public MenuBase getSubmenu() {
         return submenu;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%-30s", text);
+        String res = String.format("%-30s", text);
+        if (submenu != null)
+            res += "-->";
+        return res;
     }
 
 }

@@ -1,0 +1,9 @@
+package view;
+
+public enum MenuCmd {
+    VIEW, VIEW_ALL, VIEW_ONE, VIEW_PRIZE,
+    ADD_TOY,
+    EDIT, EDIT_PROBABILITY, EDIT_COUNT,
+    RAFFLE,
+    ISSUANCE, ISSUANCE_ONE, ISSUANCE_ALL
+}

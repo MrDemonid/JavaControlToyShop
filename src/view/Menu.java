@@ -1,22 +1,23 @@
 package view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static view.AnsiView.ANSI_BLACK_BACKGROUND;
 import static view.AnsiView.ANSI_BLUE_BACKGROUND;
 
-public class Menu {
+public class Menu extends MenuBase {
+
     protected List<MenuItem> head;
     protected Menu active;
     protected Menu prev;
-    protected String text;
 
     public Menu(String text, List<MenuItem> head)
     {
+        super(text);
         this.head = head;
         this.active = this;
         this.prev = null;
-        this.text = text;
     }
 
     public void append(MenuItem item)
@@ -31,9 +32,9 @@ public class Menu {
             System.out.println(ANSI_BLUE_BACKGROUND + active.text + ANSI_BLACK_BACKGROUND + "\n");
         }
         int idx = 1;
-        for (MenuItem i : active.head)
+        for (MenuBase i : active.head)
         {
-            System.out.printf("%d. %s", idx, i);
+            System.out.printf("%d. %s\n", idx, i);
             idx++;
         }
         if (active.prev == null)
