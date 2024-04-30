@@ -35,6 +35,16 @@ public class Toy {
         return probability;
     }
 
+    public void setCount(int count) {
+        if (count >= 0)
+            this.count = count;
+    }
+
+    public void setProbability(int probability) {
+        if (probability >= 0 && probability <= 100)
+            this.probability = probability;
+    }
+
     /**
      * Добавить одну игрушку
      */
@@ -60,7 +70,7 @@ public class Toy {
     public String toString()
     {
         String name = String.format("\"%s\"", this.name);
-        return String.format("[%4d], %-30s, %8d шт., Вероятность: %2d%%", id, name, count, probability);
+        return String.format("%-30s %8d шт.,  Артикул: %-8d, Вероятность: %2d%%", name, count, id, probability);
     }
 
     /**

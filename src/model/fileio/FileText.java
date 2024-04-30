@@ -11,8 +11,8 @@ import java.util.List;
 
 public class FileText extends FileAbstract<List<String>> {
 
-    public FileText(String fileName) {
-        super(fileName);
+    public FileText(String fileName, boolean append) {
+        super(fileName, append);
     }
 
     /*
@@ -67,7 +67,7 @@ public class FileText extends FileAbstract<List<String>> {
     @Override
     public void save(List<String> buffer) throws NeverFileException, BadWriteLineException
     {
-        try (FileWriter f = new FileWriter(fileName, StandardCharsets.UTF_8))
+        try (FileWriter f = new FileWriter(fileName, StandardCharsets.UTF_8, isAppend()))
         {
             for (String s : buffer)
                 f.append(s).append("\n");

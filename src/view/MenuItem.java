@@ -3,9 +3,9 @@ package view;
 public class MenuItem extends MenuBase {
 
     private MenuCmd id;
-    private MenuBase submenu;
+    protected Menu submenu;
 
-    public MenuItem(MenuCmd id, String text, MenuBase submenu)
+    public MenuItem(MenuCmd id, String text, Menu submenu)
     {
         super(text);
         this.id = id;
@@ -25,7 +25,7 @@ public class MenuItem extends MenuBase {
     {
         String res = String.format("%-30s", text);
         if (submenu != null)
-            res += "-->";
+            res += "->";
         return res;
     }
 

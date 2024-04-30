@@ -1,7 +1,8 @@
 package view;
 
 public enum MenuCmd {
-    VIEW, VIEW_ALL, VIEW_ONE, VIEW_PRIZE,
+    NONE,
+    VIEW, VIEW_ALL, VIEW_PRIZE,
     ADD_TOY,
     EDIT, EDIT_PROBABILITY, EDIT_COUNT,
     RAFFLE,

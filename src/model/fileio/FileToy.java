@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 
 public class FileToy extends FileText {
 
-    public FileToy(String fileName) {
-        super(fileName);
+    public FileToy(String fileName, boolean append) {
+        super(fileName, append);
     }
 
     /**

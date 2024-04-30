@@ -38,13 +38,20 @@ public class Shop {
         }
     }
 
+    public Toy get(int id)
+    {
+        if (toys.containsKey(id))
+            return toys.get(id);
+        return null;
+    }
+    
     /**
      * Подргужает данные из текстового файла
      * @param fileName Имя текстового файла
      */
     public void load(String fileName) throws NeverFileException, BarReadLineException
     {
-        FileText file = new FileToy(fileName);
+        FileText file = new FileToy(fileName, false);
         List<String> list = file.load();
         for (String s : list)
         {
@@ -66,7 +73,7 @@ public class Shop {
         {
             list.add(toy.serialize());
         }
-        FileToy file = new FileToy(fileName);
+        FileToy file = new FileToy(fileName, false);
         file.save(list);
     }
 
