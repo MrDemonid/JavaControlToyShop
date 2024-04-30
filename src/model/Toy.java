@@ -46,14 +46,6 @@ public class Toy {
     }
 
     /**
-     * Добавить одну игрушку
-     */
-    public void add(int num)
-    {
-        count += num;
-    }
-
-        /**
      * Получить одну игрушку
      * @return true - если успешно
      */

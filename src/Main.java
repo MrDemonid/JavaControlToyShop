@@ -1,10 +1,4 @@
 import controller.Controller;
-import ex.BarReadLineException;
-import ex.NeverFileException;
-import model.Shop;
-import view.*;
-
-import java.util.Arrays;
 
 public class Main {
 
@@ -15,5 +9,4 @@ public class Main {
         Controller controller = new Controller();
         controller.run();
     }
-
 }

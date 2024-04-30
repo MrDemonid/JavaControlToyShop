@@ -15,8 +15,8 @@ import java.util.Random;
 
 public class Controller {
     Menu menu;
-    Shop shop;
-    List<Toy> prize;
+    Shop shop;                  // менеджер игрушек
+    List<Toy> prize;            // список игрушек на выдачу
     Random random;
 
     public Controller() {
@@ -48,7 +48,7 @@ public class Controller {
     public void run()
     {
         MenuCmd cmd;
-        load();
+        load();                     // подгружаем игрушки из файла (если он есть)
 
         while ((cmd = menu.run()) != MenuCmd.NONE)
         {
@@ -80,7 +80,17 @@ public class Controller {
                     break;
             }
         }
-        
+
+        /*
+            Сохраняем текущее состояние магазина и выходим
+         */
+        try {
+            shop.save("assets/toys.txt");
+
+        } catch (NeverFileException | BadWriteLineException e) {
+            View.error(e.getMessage());
+        }
+
     }
 
     private void viewPrize()
@@ -114,7 +124,7 @@ public class Controller {
 
     private void editCount()
     {
-        int id = readId();
+        int id = View.getInt("Введите артикул: ", -1);
         if (id >= 0)
         {
             Toy toy = shop.get(id);
@@ -130,7 +140,7 @@ public class Controller {
 
     private void editProbability()
     {
-        int id = readId();
+        int id = View.getInt("Введите артикул: ", -1);
         if (id >= 0)
         {
             Toy toy = shop.get(id);
@@ -155,28 +165,28 @@ public class Controller {
             if (toy.getCount() > 0)
                 len += toy.getProbability();
         }
-
-        Toy toy = null;
-        int t = random.nextInt(len);
-        // Ищем элемент, которому принадлежит этот индекс
-        for (Integer m : mas)
+        if (len > 0)
         {
-            Toy p = shop.get(m);
-            if (p.getCount() > 0)
-                t -= p.getProbability();
-            if (t < 0)
+            Toy toy = null;
+            int t = random.nextInt(len);
+            // Ищем элемент, которому принадлежит этот индекс
+            for (Integer m : mas)
             {
-
-                toy = new Toy(p.getId(), p.getName(), 1, p.getProbability());
-                p.setCount(p.getCount()-1);
-                break;
+                Toy p = shop.get(m);
+                if (p.getCount() > 0)
+                    t -= p.getProbability();
+                if (t < 0)
+                {
+                    toy = new Toy(p.getId(), p.getName(), 1, p.getProbability());
+                    p.give();           // взяли одну игрушку
+                    break;
+                }
             }
-        }
-
-        if (toy != null)
-        {
-            prize.add(toy);
-            View.printf("Выиграли:\n%s\n", toy);
+            if (toy != null)
+            {
+                prize.add(toy);
+                View.printf("Выиграли:\n%s\n", toy);
+            }
         }
     }
 
@@ -204,16 +214,14 @@ public class Controller {
     }
     
 
-    private int readId()
-    {
-        return View.getInt("Введите артикул: ", -1);
-    }
-
     private void load()
     {
+        View.print("Загружаем игрушки...");
         try {
             shop.load("assets/toys.txt");
+            View.println("ок");
         } catch (NeverFileException | BarReadLineException e) {
+            View.println("");
             View.error(e.getMessage());
         }
     }

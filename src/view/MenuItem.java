@@ -1,22 +1,24 @@
 package view;
 
-public class MenuItem extends MenuBase {
+public class MenuItem {
 
+    protected String text;
     private MenuCmd id;
     protected Menu submenu;
 
     public MenuItem(MenuCmd id, String text, Menu submenu)
     {
-        super(text);
+        this.text = text;
         this.id = id;
         this.submenu = submenu;
     }
 
-    public MenuCmd getId() {
+    public MenuCmd getId()
+    {
         return id;
     }
 
-    public MenuBase getSubmenu() {
+    public Menu getSubmenu() {
         return submenu;
     }
 

@@ -1,5 +1,11 @@
 [
 {
+    "id" : 32,
+    "name" : "Танк",
+    "count" : 1,
+    "probability" : 2
+},
+{
     "id" : 1,
     "name" : "Машинка",
     "count" : 5,
@@ -12,9 +18,15 @@
     "probability" : 25
 },
 {
+    "id" : 7,
+    "name" : "Клоун",
+    "count" : 3,
+    "probability" : 30
+},
+{
     "id" : 12,
     "name" : "Экскаватор",
-    "count" : 7,
+    "count" : 6,
     "probability" : 15
 }
 ]

@@ -3,15 +3,16 @@ package view;
 import java.util.List;
 
 
-public class Menu extends MenuBase {
+public class Menu {
 
+    protected String text;
     protected List<MenuItem> head;
     protected Menu active;
     protected Menu prev;
 
     public Menu(String text, List<MenuItem> head)
     {
-        super(text);
+        this.text = text;
         this.head = head;
         this.active = this;
         this.prev = null;
@@ -30,7 +31,7 @@ public class Menu extends MenuBase {
             View.print("\n---------------------\n");
         }
         int idx = 1;
-        for (MenuBase i : active.head)
+        for (MenuItem i : active.head)
         {
             View.printf("%d. %s\n", idx, i);
             idx++;
@@ -87,25 +88,11 @@ public class Menu extends MenuBase {
         }
     }
 
+    public String toString()
+    {
+        return text;
+    }
 
-//    #
-//            # Процесс меню, на выходе: код выбранного меню, или 0, если пользователь захотел выйти из программы
-//    #
-//    def run(self) -> int:
-//            while True:
-//            self.show()
-//            try:
-//    print(">", end = "")
-//    key = int(input())
-//            if key == 0:
-//            if self.active.prev is None:
-//            return 0
-//            self.back()
-//            else:
-//    key -= 1
-//            if self.select(key) is not None:
-//            return self.active.head[key].id
-//
 }
 
 

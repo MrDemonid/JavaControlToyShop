@@ -11,15 +11,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Shop {
-    Map<Integer, Toy> toys;
+    private Map<Integer, Toy> toys;
 
     public Shop() {
         toys = new HashMap<>();
-    }
-
-    public void clear()
-    {
-        toys.clear();
     }
 
     /**
@@ -92,9 +87,7 @@ public class Shop {
      */
     public List<Integer> getToysId()
     {
-        List<Integer> lst = new ArrayList<>();
-
-        lst = toys.keySet().stream().toList();
+        List<Integer> lst = toys.keySet().stream().toList();
         return lst;
     }
 
