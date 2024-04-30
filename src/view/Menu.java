@@ -74,7 +74,7 @@ public class Menu {
             int key = View.getInt(">", -1);
             if (key > 0)
             {
-                if (select(key-1) != MenuCmd.NONE)
+                if (select(key-1) != MenuCmd.NONE)      // NONE - это что-то неправильное ввели, игнорируем
                 {
                     return active.head.get(key-1).getId();
                 }

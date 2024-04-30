@@ -70,7 +70,7 @@ public class Toy {
      */
     public String serialize()
     {
-        return String.format("{\n    \"id\" : %d,\n    \"name\" : \"%s\",\n    \"count\" : %d,\n    \"probability\" : %d\n}", id, name, count, probability);
+        return String.format("{\r\n    \"id\" : %d,\r\n    \"name\" : \"%s\",\r\n    \"count\" : %d,\r\n    \"probability\" : %d\r\n}", id, name, count, probability);
     }
 
     /**

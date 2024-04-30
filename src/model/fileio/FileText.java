@@ -70,7 +70,7 @@ public class FileText extends FileAbstract<List<String>> {
         try (FileWriter f = new FileWriter(fileName, StandardCharsets.UTF_8, isAppend()))
         {
             for (String s : buffer)
-                f.append(s).append("\n");
+                f.append(s).append("\r\n");
 
         } catch (FileNotFoundException e) {
             throw new NeverFileException(fileName);

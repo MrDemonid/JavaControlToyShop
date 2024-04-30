@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.Date;
 
 public class Controller {
     Menu menu;
@@ -58,25 +59,25 @@ public class Controller {
                     View.print(shop);
                     break;
                 case VIEW_PRIZE:
-                    viewPrize();
+                    viewPrize();            // Просмотр очереди на выдачу
                     break;
                 case ADD_TOY:
-                    addToy();
+                    addToy();               // Добавление новой игрушки в магазин
                     break;
                 case EDIT_COUNT:
-                    editCount();
+                    editCount();            // Изменение количества игрушек
                     break;
                 case EDIT_PROBABILITY:
-                    editProbability();
+                    editProbability();      // Изменение частоты выигрыша игрушки
                     break;
                 case RAFFLE:
-                    raffle();
+                    raffle();               // Розыгрыш игрушки, с помещением в очередь на выдачу
                     break;
                 case ISSUANCE_ONE:
-                    issuance();
+                    issuance();             // Выдача одной игрушки из очереди на выдачу
                     break;
                 case ISSUANCE_ALL:
-                    issuanceAll();
+                    issuanceAll();          // Выдача всех игрушек из очереди на выдачу
                     break;
             }
         }
@@ -103,28 +104,35 @@ public class Controller {
 
     private void addToy()
     {
-        String name = View.input("Введите название игрушки: ");
-        int id = View.getInt("Введите артикул: ", -1);
-        if (id >= 0 && shop.get(id) != null)
+        int id = readId();
+        if (id >= 0)
         {
-            View.error("Такой товар уже есть в магазине!\n");
-            return;
+            if (shop.get(id) != null)
+            {
+                View.error("Такой товар уже есть в магазине!\n");
+                return;
+            }
+            String name = readName();
+            if (name != null)
+            {
+                int count = readCount();
+                if (count >= 0)
+                {
+                    int probability = readProbability();
+                    if (probability >= 0)
+                    {
+                        Toy toy = new Toy(id, name, count, probability);
+                        shop.add(toy);
+                        View.printf("Добавлено:\n%s\n", toy.toString());
+                    }
+                }
+            }
         }
-        int count = View.getInt("Введите количество: ", 0);
-        int prb = View.getInt("Введите вероятность (0 - 100): ", 0);
-        if (prb > 100)
-        {
-            View.error("Вероятность не может быть выше 100%!\n");
-            return;
-        }
-        Toy toy = new Toy(id, name, count, prb);
-        shop.add(toy);
-        View.printf("Добавлено:\n%s\n", toy.toString());
     }
 
     private void editCount()
     {
-        int id = View.getInt("Введите артикул: ", -1);
+        int id = readId();
         if (id >= 0)
         {
             Toy toy = shop.get(id);
@@ -134,13 +142,15 @@ public class Controller {
                 int cnt = View.getInt("Введите новое количество: ", toy.getCount());
                 toy.setCount(cnt);
                 View.println(toy);
+            } else {
+                View.error("Такого товара не существует!\n");
             }
         }
     }
 
     private void editProbability()
     {
-        int id = View.getInt("Введите артикул: ", -1);
+        int id = readId();
         if (id >= 0)
         {
             Toy toy = shop.get(id);
@@ -150,14 +160,15 @@ public class Controller {
                 int prb = View.getInt("Введите новую вероятность (0 - 100): ", toy.getProbability());
                 toy.setProbability(prb);
                 View.println(toy);
+            } else {
+                View.error("Такого товара не существует!\n");
             }
         }
     }
 
     private void raffle()
     {
-        List<Integer> mas = shop.getToysId();
-
+        List<Integer> mas = shop.getToysId();       // список id всех товаров в магазине
         // подсчитываем общую вероятность
         int len = 0;
         for (Integer m : mas) {
@@ -168,14 +179,14 @@ public class Controller {
         if (len > 0)
         {
             Toy toy = null;
-            int t = random.nextInt(len);
+            int t = random.nextInt(len+1);
             // Ищем элемент, которому принадлежит этот индекс
             for (Integer m : mas)
             {
                 Toy p = shop.get(m);
-                if (p.getCount() > 0)
+                if (p.getCount() > 0 && p.getProbability() > 0)
                     t -= p.getProbability();
-                if (t < 0)
+                if (t <= 0)
                 {
                     toy = new Toy(p.getId(), p.getName(), 1, p.getProbability());
                     p.give();           // взяли одну игрушку
@@ -198,10 +209,13 @@ public class Controller {
             View.printf("Выдали:\n%s\n", toy.toString());
             FileText file = new FileText("assets/prizes.txt", true);
             try {
-                file.save(List.of(toy.toString()));
+                String str = String.format("%1$td.%1$tm.%1$tY %1$tH:%1$tM:%1$tS ", new Date());
+                file.save(List.of(str + toy.toString()));
             } catch (NeverFileException | BadWriteLineException e) {
                 View.error(e.getMessage());
             }
+        } else {
+            View.error("Очередь выдачи пуста!\n");
         }
     }
 
@@ -213,6 +227,51 @@ public class Controller {
         }
     }
     
+    /*
+        Вспомогательные подпрограммы
+     */
+
+    private int readId()
+    {
+        int id = View.getInt("Введите артикул: ", -1);
+        if (id < 0)
+        {
+            View.error("Артикул должен быть неотрицательным целым числом!\n");
+        }
+        return id;
+    }
+
+    private String readName()
+    {
+        String name = View.input("Введите название игрушки: ");
+        if (name == null || name.isBlank())
+        {
+            View.error("Наименование не может быть пустым!\n");
+            return null;
+        }
+        return name;
+    }
+
+    private int readCount()
+    {
+        int count = View.getInt("Введите количество игрушек: ", -1);
+        if (count < 0)
+        {
+            View.error("Количество должно быть неотрицательным целым числом!\n");
+        }
+        return count;
+    }
+
+    private int readProbability()
+    {
+        int probability = View.getInt("Введите частоту выигрыша игрушки (0 - 100): ", -1);
+        if (probability < 0 || probability > 100)
+        {
+            View.error("Вероятность должна быть в диапазоне от 0 до 100%!\n");
+            return -1;
+        }
+        return probability;
+    }
 
     private void load()
     {

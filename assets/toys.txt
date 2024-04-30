@@ -14,19 +14,25 @@
 {
     "id" : 4,
     "name" : "Самолет",
-    "count" : 3,
+    "count" : 2,
     "probability" : 25
 },
 {
     "id" : 7,
     "name" : "Клоун",
-    "count" : 3,
+    "count" : 4,
     "probability" : 30
+},
+{
+    "id" : 8,
+    "name" : "Пиноккио",
+    "count" : 1,
+    "probability" : 3
 },
 {
     "id" : 12,
     "name" : "Экскаватор",
-    "count" : 6,
+    "count" : 5,
     "probability" : 15
 }
 ]

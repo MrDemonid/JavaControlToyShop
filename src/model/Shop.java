@@ -33,7 +33,7 @@ public class Shop {
 
     public Toy get(int id)
     {
-        if (toys.containsKey(id))
+        if (id >= 0 && toys.containsKey(id))
             return toys.get(id);
         return null;
     }
@@ -70,6 +70,13 @@ public class Shop {
         file.save(list);
     }
 
+    /**
+     * Возвращает список ключей
+     */
+    public List<Integer> getToysId()
+    {
+        return toys.keySet().stream().toList();
+    }
 
     @Override
     public String toString()
@@ -80,15 +87,6 @@ public class Shop {
 //        return sb.toString();
 //
         return toys.values().stream().map(toy -> toy + "\n").collect(Collectors.joining("", "В наличии:\n", ""));
-    }
-
-    /**
-     * Возвращает список ключей
-     */
-    public List<Integer> getToysId()
-    {
-        List<Integer> lst = toys.keySet().stream().toList();
-        return lst;
     }
 
 }
