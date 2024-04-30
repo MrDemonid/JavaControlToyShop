@@ -8,8 +8,8 @@
 {
     "id" : 4,
     "name" : "Самолет",
-    "count" : 10,
-    "probability" : 2
+    "count" : 3,
+    "probability" : 25
 },
 {
     "id" : 12,

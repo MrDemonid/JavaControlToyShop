@@ -11,11 +11,13 @@ import view.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Controller {
     Menu menu;
     Shop shop;
     List<Toy> prize;
+    Random random;
 
     public Controller() {
         menu = new Menu("Главное меню", Arrays.asList(
@@ -40,6 +42,7 @@ public class Controller {
 
         shop = new Shop();
         prize = new ArrayList<>();
+        random = new Random();
     }
 
     public void run()
@@ -143,11 +146,38 @@ public class Controller {
 
     private void raffle()
     {
-        Toy toy = shop.get(12);
-        toy.setCount(toy.getCount()-1);
-        Toy p = new Toy(toy.getId(), toy.getName(), 1, toy.getProbability());
-        prize.add(p);
-        View.printf("Выиграли:\n%s\n", p);
+        List<Integer> mas = shop.getToysId();
+
+        // подсчитываем общую вероятность
+        int len = 0;
+        for (Integer m : mas) {
+            Toy toy = shop.get(m);
+            if (toy.getCount() > 0)
+                len += toy.getProbability();
+        }
+
+        Toy toy = null;
+        int t = random.nextInt(len);
+        // Ищем элемент, которому принадлежит этот индекс
+        for (Integer m : mas)
+        {
+            Toy p = shop.get(m);
+            if (p.getCount() > 0)
+                t -= p.getProbability();
+            if (t < 0)
+            {
+
+                toy = new Toy(p.getId(), p.getName(), 1, p.getProbability());
+                p.setCount(p.getCount()-1);
+                break;
+            }
+        }
+
+        if (toy != null)
+        {
+            prize.add(toy);
+            View.printf("Выиграли:\n%s\n", toy);
+        }
     }
 
     private void issuance()

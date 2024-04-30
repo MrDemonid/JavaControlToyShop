@@ -31,9 +31,7 @@ public class Shop {
         if (toy != null)
         {
             int id = toy.getId();
-            if (toys.containsKey(id))
-                toys.get(id).add(toy.getCount());  // добавляем количество
-            else
+            if (!toys.containsKey(id))
                 toys.put(id,toy);                  // добавляем новую игрушку
         }
     }
@@ -87,6 +85,17 @@ public class Shop {
 //        return sb.toString();
 //
         return toys.values().stream().map(toy -> toy + "\n").collect(Collectors.joining("", "В наличии:\n", ""));
+    }
+
+    /**
+     * Возвращает список ключей
+     */
+    public List<Integer> getToysId()
+    {
+        List<Integer> lst = new ArrayList<>();
+
+        lst = toys.keySet().stream().toList();
+        return lst;
     }
 
 }
